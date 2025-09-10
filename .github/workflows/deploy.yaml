@@ -29,4 +29,4 @@ jobs:
 
       - name: Upload zipped app to S3
         run: |
-          aws s3 cp app.zip s3://bassell-cicd-lab-bucket/app.zip
+          aws s3 cp app.zip s3://elasticbeanstalk-eu-central-1-495599742316/app.zip
