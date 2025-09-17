@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - main  # or your default branch
+      - main
 
 jobs:
   deploy:
@@ -16,17 +16,21 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml -DskipTests
 
-      - name: Zip Java artifact
-        run: |
-          zip -j app.zip target/*.jar
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Upload zipped app to S3
+      - name: Configure AWS and Docker for image push
         run: |
-          aws s3 cp app.zip s3://elasticbeanstalk-eu-central-1-495599742316/app.zip
+          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 495599742316.dkr.ecr.eu-central-1.amazonaws.com
+
+      - name: Build Docker Image
+        run: |
+          docker build -t 495599742316.dkr.ecr.eu-central-1.amazonaws.com/cicd-lab-stack-repository:latest .
+
+      - name: Push docker image to ECR
+        run: |
+          docker push 495599742316.dkr.ecr.eu-central-1.amazonaws.com/cicd-lab-stack-repository:latest
