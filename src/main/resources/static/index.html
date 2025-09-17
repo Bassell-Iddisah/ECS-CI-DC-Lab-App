@@ -3,99 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS ECS Deployment Project</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>ECS CICD LAB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            /*  Updated background to use the provided cyberpunk image */
+            background:
+                    url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wp8502729-amd-gaming-wallpapers.jpg-TJuG9ZeG2QIVQYQDRwDiYtB2Zd9t4t.jpeg') center/cover no-repeat,
+                    #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff41;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /*  Added screen-wide glitch overlay for TV transmission effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                    repeating-linear-gradient(
+                            0deg,
+                            transparent,
+                            transparent 2px,
+                            rgba(255, 255, 255, 0.03) 2px,
+                            rgba(255, 255, 255, 0.03) 4px
+                    );
+            animation: screenGlitch 0.1s infinite linear alternate-reverse;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /*  Added screen-wide filter malfunction effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                    linear-gradient(90deg,
+                    rgba(255, 0, 60, 0.1) 0%,
+                    transparent 10%,
+                    transparent 90%,
+                    rgba(0, 255, 255, 0.1) 100%
+                    );
+            animation: filterMalfunction 3s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @keyframes screenGlitch {
+            0% {
+                transform: translate(0px, 0px) skew(0deg);
+                filter: hue-rotate(0deg);
+            }
+            10% {
+                transform: translate(-2px, 1px) skew(0.5deg);
+                filter: hue-rotate(90deg);
+            }
+            20% {
+                transform: translate(-1px, 0px) skew(0deg);
+                filter: hue-rotate(0deg);
+            }
+            30% {
+                transform: translate(1px, 2px) skew(-0.5deg);
+                filter: hue-rotate(180deg);
+            }
+            40% {
+                transform: translate(1px, -1px) skew(0deg);
+                filter: hue-rotate(270deg);
+            }
+            50% {
+                transform: translate(-1px, 2px) skew(0.3deg);
+                filter: hue-rotate(0deg);
+            }
+            60% {
+                transform: translate(-3px, 1px) skew(-0.3deg);
+                filter: hue-rotate(90deg);
+            }
+            70% {
+                transform: translate(2px, 1px) skew(0deg);
+                filter: hue-rotate(180deg);
+            }
+            80% {
+                transform: translate(-1px, -1px) skew(0.2deg);
+                filter: hue-rotate(270deg);
+            }
+            90% {
+                transform: translate(1px, 2px) skew(-0.2deg);
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                transform: translate(1px, -2px) skew(0deg);
+                filter: hue-rotate(90deg);
+            }
+        }
+
+        @keyframes filterMalfunction {
+            0%, 100% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            10% {
+                opacity: 0.8;
+                transform: translateX(-50%);
+            }
+            20% {
+                opacity: 0;
+                transform: translateX(0%);
+            }
+            30% {
+                opacity: 0.6;
+                transform: translateX(50%);
+            }
+            40% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            50% {
+                opacity: 0.9;
+                transform: translateX(150%);
+            }
+            60% {
+                opacity: 0;
+                transform: translateX(200%);
+            }
+        }
+
+        /*  Updated container with glassmorphism effect to match background */
+        .container {
+            background: rgba(20, 20, 20, 0.3);
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(15px) saturate(1.2);
+            -webkit-backdrop-filter: blur(15px) saturate(1.2);
+        }
+
+        /*  Simplified name styling without glitch effects */
+        .name {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            position: relative;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff0040, #ff0040, transparent);
+            box-shadow: 0 0 8px rgba(255, 0, 60, 0.6);
+        }
+
+        /*  Simplified lab name styling without glitch effects */
+        .lab-name {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #ff0040;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .lab-name::before {
+            content: '> ';
+            color: #ffffff;
+            opacity: 0.8;
+        }
+
+        .lab-name::after {
+            content: ' <';
+            color: #ffffff;
+            opacity: 0.8;
+        }
+
+        .divider {
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), #ff0040, rgba(255, 255, 255, 0.3));
+            margin: 2rem auto;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255, 0, 60, 0.4);
+        }
+
+        /*  Removed all glitch-related styles and animations */
+    </style>
 </head>
 <body>
 <div class="container">
-    <header class="header">
-        <div class="header-content">
-            <div class="aws-icon">
-                <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                    <path d="M13.5 7.5c0 .8-.2 1.5-.7 2.1-.4.6-1 .9-1.8.9s-1.4-.3-1.8-.9c-.5-.6-.7-1.3-.7-2.1s.2-1.5.7-2.1c.4-.6 1-.9 1.8-.9s1.4.3 1.8.9c.5.6.7 1.3.7 2.1zm-1.3 0c0-.5-.1-.9-.3-1.2-.2-.3-.5-.5-.9-.5s-.7.2-.9.5c-.2.3-.3.7-.3 1.2s.1.9.3 1.2c.2.3.5.5.9.5s.7-.2.9-.5c.2-.3.3-.7.3-1.2z" fill="#FF9900"/>
-                    <path d="M20.8 10.8l-1.1-3.3h-.1l-1.1 3.3h-1.4l-1.8-5.3h1.4l1.1 3.4h.1l1.1-3.4h1.3l1.1 3.4h.1l1.1-3.4h1.4l-1.8 5.3h-1.4z" fill="#FF9900"/>
-                    <path d="M28.2 8.7c0 .7-.3 1.3-.8 1.7-.5.4-1.2.6-2 .6-.9 0-1.6-.2-2.1-.5v-1.3c.3.2.7.3 1.1.4.4.1.8.2 1.1.2.4 0 .7-.1.9-.2.2-.1.3-.3.3-.6 0-.2-.1-.4-.3-.5-.2-.1-.5-.3-.9-.4-.8-.3-1.3-.6-1.6-.9-.3-.3-.4-.7-.4-1.2 0-.6.2-1.1.7-1.4.5-.4 1.1-.5 1.9-.5.8 0 1.5.2 2.1.5l-.5 1.2c-.6-.3-1.2-.4-1.7-.4-.3 0-.6.1-.7.2-.2.1-.2.3-.2.5 0 .2.1.3.2.4.2.1.5.2.9.4.8.3 1.3.6 1.6.9.3.3.4.7.4 1.1z" fill="#FF9900"/>
-                </svg>
-            </div>
-            <h1>AWS ECS Deployment Project</h1>
-        </div>
-    </header>
-
-    <main class="main-content">
-        <div class="info-card">
-            <div class="card-header">
-                <h2>Project Information</h2>
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    Deployed
-                </div>
-            </div>
-
-            <div class="info-grid">
-                <div class="info-item">
-                    <label>Trainee</label>
-                    <div class="info-value" id="studentName">
-                        Bassell Dari Iddisah
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <label>Lab Name</label>
-                    <div class="info-value" id="labName">
-                        ECS CI/CD LAB
-                    </div>
-                </div>
-            </div>
-
-            <div class="deployment-info">
-                <h3>Deployment Details</h3>
-                <div class="deployment-grid">
-                    <div class="deployment-item">
-                        <span class="deployment-label">Platform:</span>
-                        <span class="deployment-value">Amazon ECS (Fargate)</span>
-                    </div>
-                    <div class="deployment-item">
-                        <span class="deployment-label">Architecture:</span>
-                        <span class="deployment-value">Multi-AZ High Availability</span>
-                    </div>
-                    <div class="deployment-item">
-                        <span class="deployment-label">Scaling:</span>
-                        <span class="deployment-value">Auto Scaling Enabled</span>
-                    </div>
-                    <div class="deployment-item">
-                        <span class="deployment-label">Network:</span>
-                        <span class="deployment-value">Custom VPC</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="architecture-overview">
-            <h3>Architecture Overview</h3>
-            <div class="architecture-diagram">
-                <div class="vpc-container">
-                    <div class="vpc-label">Custom VPC</div>
-                    <div class="az-container">
-                        <div class="availability-zone">
-                            <div class="az-label">AZ-1</div>
-                            <div class="ecs-service">ECS Service</div>
-                        </div>
-                        <div class="availability-zone">
-                            <div class="az-label">AZ-2</div>
-                            <div class="ecs-service">ECS Service</div>
-                        </div>
-                    </div>
-                    <div class="load-balancer">Application Load Balancer</div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <p>&copy; 2024 AWS ECS Deployment Project. Built with containerized Java application on Fargate.</p>
-    </footer>
+    <h1 class="name" id="studentName">Bassell Dari Iddisah</h1>
+    <div class="divider"></div>
+    <h2 class="lab-name" id="labName">ECS CICD LAB</h2>
 </div>
 
-<script src="script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nameElement = document.getElementById('studentName');
+        const labElement = document.getElementById('labName');
+
+        //  Simplified typing effect without glitch
+        const originalName = nameElement.textContent;
+        nameElement.textContent = '';
+        let i = 0;
+
+        function typeWriter() {
+            if (i < originalName.length) {
+                nameElement.textContent += originalName.charAt(i);
+                i++;
+                setTimeout(typeWriter, 80);
+            }
+        }
+
+        setTimeout(typeWriter, 800);
+
+        // Lab name fade in
+        setTimeout(() => {
+            labElement.style.opacity = '1';
+            labElement.style.transform = 'translateY(0)';
+        }, 2500);
+
+        labElement.style.opacity = '0';
+        labElement.style.transform = 'translateY(20px)';
+        labElement.style.transition = 'all 1s ease';
+
+        //  Removed all glitch and corruption effects from text
+    });
+</script>
 </body>
 </html>
