@@ -26,8 +26,8 @@ jobs:
       - name: Configure AWS credentials using OidcProvider
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: "arn:aws:iam::495599742316:role/cicd-lab-stack-ECSTaskExecutionRole"
+          aws-region: eu-central-1
 
       - name: Login to Amazon ECR
         id: ECR-login
