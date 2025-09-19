@@ -14,4 +14,10 @@ public class MainController {
     public String index() {
         return "redirect:/index.html";
     }
+
+    @GetMapping("ping")
+    public String ping(Model model) {
+        model.addAttribute("message", "pong");
+        return "ping";
+    }
 }
