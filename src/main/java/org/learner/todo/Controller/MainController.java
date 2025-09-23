@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/")
 public class MainController {
 
-    @GetMapping("index")
+    @GetMapping()
     public String index() {
         return "redirect:/cicd-lab.html";
     }
