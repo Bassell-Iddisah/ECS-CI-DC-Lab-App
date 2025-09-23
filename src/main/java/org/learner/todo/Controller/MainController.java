@@ -10,8 +10,13 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/")
 public class MainController {
 
-    @GetMapping()
+    @GetMapping("index")
     public String index() {
-        return "redirect:/index.html";
+        return "redirect:/cicd-lab.html";
+    }
+
+    @GetMapping("photo-upload")
+    public String photo() {
+        return "redirect:/photo-upload.html";
     }
 }
