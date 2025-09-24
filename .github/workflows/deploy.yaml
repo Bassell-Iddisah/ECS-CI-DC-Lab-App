@@ -49,6 +49,7 @@ jobs:
       - name: Configure AWS and Docker for image push
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 495599742316.dkr.ecr.us-east-1.amazonaws.com
+#          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 495599742316.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Build Docker Image
         run: |
