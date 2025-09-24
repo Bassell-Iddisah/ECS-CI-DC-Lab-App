@@ -19,7 +19,7 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "/ecs/cicd-lab-stack-log-group",
-          "awslogs-region": "eu-central-1",
+          "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "cicd-lab-stack-container-log"
         }
       },
