@@ -56,4 +56,4 @@ jobs:
 
       - name: Push docker image to ECR
         run: |
-          docker push 495599742316.dkr.ecr.us-east-1.amazonaws.com/cicd-lab-stack-repository
+          docker push 495599742316.dkr.ecr.us-east-1.amazonaws.com/cicd-lab-stack-repository:latest
