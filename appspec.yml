@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: arn:aws:ecs:us-east-1:495599742316:task-definition/cicd-lab-stack-task-definition:3
+        TaskDefinition: arn:aws:ecs:us-east-1:495599742316:task-definition/cicd-lab-stack-task-definition:4
         LoadBalancerInfo:
           ContainerName: cicd-lab-stack-container
           ContainerPort: 80
